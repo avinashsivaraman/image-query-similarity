@@ -42,14 +42,16 @@ def printResultArray(d, ID, K):
             unionD = len(numpy.unique(numpy.append(givenNonZero, currentNonZero)))
             # print('u', unionD, end='\n')
             interD = len(givenNonZero) + len(currentNonZero) - unionD
-            # print('i',interD, end='\n')
-            J = interD / unionD
-            # print('J',J, end='\n')
 
-            result1 = J / diff
-            # print('result',result1, end='\n')
-            
-            result.append([k, result1])
+            if(interD < 3):
+                # We are not considering the user with less than 3 similarities
+                result1 = 0
+            else:
+                # Jacaad Similarity index
+                J = interD / unionD
+                # Dividing the 'J' index with euclidean distance
+                result1 = J / (1 + diff)
+        result.append([k, result1])
     
     # Sorting the euclidean distance vector in increasing order such that we can pick the first 'K' Similarities easily
     sortedResult = sorted(result, key=lambda x: x[1], reverse=True)
